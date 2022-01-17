@@ -61,43 +61,64 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Run cargo-tarpaulin
+        uses: actions-rs/tarpaulin@v0.1
+        with:
+          version: '0.15.0'
+          args: '-- --test-threads 1'
+
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v1.0.2
+    # runs-on: ubuntu-latest
+    # steps:
+    #  - uses: actions/checkout@v2
     
-     - uses: actions-rs/toolchain@v1
-       with:
-        toolchain: nightly
-        override: true
-
-     - uses: actions-rs/cargo@v1
-       with:
-        command: clean
-
-    #  - uses: Swatinem/rust-cache@v1
+    #  - uses: actions-rs/toolchain@v1
     #    with:
-    #     key: coverage 
-     - uses: actions-rs/cargo@v1
-       with:
-        command: test
-        #args: --features visualization
-       env:
-          RUSTFLAGS: '-Z instrument-coverage'
-          LLVM_PROFILE_FILE: '%m.profraw'
+    #     toolchain: nightly
+    #     override: true
 
-     - uses: actions-rs/cargo@v1
-       with:
-        command: test
-        args: --features parallel
-       env:
-          RUSTFLAGS: '-Z instrument-coverage'
-          LLVM_PROFILE_FILE: '%m.profraw'
+    #  - uses: actions-rs/cargo@v1
+    #    with:
+    #     command: clean
+
+    # #  - uses: Swatinem/rust-cache@v1
+    # #    with:
+    # #     key: coverage 
+    #  - uses: actions-rs/cargo@v1
+    #    with:
+    #     command: test
+    #     #args: --features visualization
+    #    env:
+    #       CARGO_INCREMENTAL: '0'
+    #       RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
+    #       RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
+    #       LLVM_PROFILE_FILE: '%m.profraw'
+
+    # #  - uses: actions-rs/cargo@v1
+    # #    with:
+    # #     command: test
+    # #     args: --features parallel
+    # #    env:
+    # #       RUSTFLAGS: '-Z instrument-coverage'
+    # #       LLVM_PROFILE_FILE: '%m.profraw'
        
-     - name: Install grcov
-       run: |
-        rustup component add llvm-tools-preview
-        curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
-     - name: Run grcov
-       run: |
-        ./grcov . --source-dir . --binary-path ./target/debug/ --output-type lcov --output-path ./lcov.info --branch 
-     - name: Upload to Codecov
-       run: |
-        bash <(curl -s https://codecov.io/bash) -f ./lcov.info
+    #  - name: Install grcov
+    #    run: |
+    #     rustup component add llvm-tools-preview
+    #     curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
+    #  - name: Run grcov
+    #    run: |
+    #     ./grcov . --source-dir . --binary-path ./target/debug/ --output-type lcov --output-path ./lcov.info --branch 
+    #  - name: Upload to Codecov
+    #    run: |
+    #     bash <(curl -s https://codecov.io/bash) -f ./lcov.info
