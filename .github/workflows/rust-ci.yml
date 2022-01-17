@@ -65,7 +65,6 @@ jobs:
     
      - uses: actions-rs/toolchain@v1
        with:
-        profile: minimal
         toolchain: nightly
         override: true
 
