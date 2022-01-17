@@ -78,6 +78,8 @@ jobs:
 
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v1.0.2
+        with:
+          token: 11662745-2cff-4f54-9a05-38ed078df7cb
     # runs-on: ubuntu-latest
     # steps:
     #  - uses: actions/checkout@v2
