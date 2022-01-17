@@ -76,7 +76,7 @@ jobs:
         command: test
         #args: --features visualization
        env:
-          RUSTFLAGS: '-Zinstrument-coverage'
+          RUSTFLAGS: '-Z instrument-coverage'
           LLVM_PROFILE_FILE: '%m.profraw'
 
      - uses: actions-rs/cargo@v1
@@ -84,7 +84,7 @@ jobs:
         command: test
         args: --features parallel
        env:
-          RUSTFLAGS: '-Zinstrument-coverage'
+          RUSTFLAGS: '-Z instrument-coverage'
           LLVM_PROFILE_FILE: '%m.profraw'
        
      - name: Install grcov
