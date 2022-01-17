@@ -72,64 +72,8 @@ jobs:
         env:
           RUSTFLAGS: '-Z instrument-coverage'
           LLVM_PROFILE_FILE: '%m.profraw'
-      
-          # CARGO_INCREMENTAL: '0'
-          # RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
-          # RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
-      
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --features parallel
-        env:
-          RUSTFLAGS: '-Z instrument-coverage'
-          LLVM_PROFILE_FILE: '%m.profraw'
-      
+            
       - name: Upload to codecov.io
         uses: codecov/codecov-action@v2
         with:
           token: 11662745-2cff-4f54-9a05-38ed078df7cb
-    # runs-on: ubuntu-latest
-    # steps:
-    #  - uses: actions/checkout@v2
-    
-    #  - uses: actions-rs/toolchain@v1
-    #    with:
-    #     toolchain: nightly
-    #     override: true
-
-    #  - uses: actions-rs/cargo@v1
-    #    with:
-    #     command: clean
-
-    # # - uses: Swatinem/rust-cache@v1
-    # #    with:
-    # #     key: coverage 
-    #  - uses: actions-rs/cargo@v1
-    #    with:
-    #     command: test
-    #     #args: --features visualization
-    #    env:
-    #       CARGO_INCREMENTAL: '0'
-    #       RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
-    #       RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests'
-    #       LLVM_PROFILE_FILE: '%m.profraw'
-
-    # #  - uses: actions-rs/cargo@v1
-    # #    with:
-    # #     command: test
-    # #     args: --features parallel
-    # #    env:
-    # #       RUSTFLAGS: '-Z instrument-coverage'
-    # #       LLVM_PROFILE_FILE: '%m.profraw'
-       
-    #  - name: Install grcov
-    #    run: |
-    #     rustup component add llvm-tools-preview
-    #     curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
-    #  - name: Run grcov
-    #    run: |
-    #     ./grcov . --source-dir . --binary-path ./target/debug/ --output-type lcov --output-path ./lcov.info --branch 
-    #  - name: Upload to Codecov
-    #    run: |
-    #     bash <(curl -s https://codecov.io/bash) -f ./lcov.info
