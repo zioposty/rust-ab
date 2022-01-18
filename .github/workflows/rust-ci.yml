@@ -65,48 +65,26 @@ jobs:
        with:
         toolchain: nightly
         override: true
+
      - name: Cargo Clean
        run: |
         cargo clean
-    #  - uses: Swatinem/rust-cache@v1
-    #    with:
-    #     key: coverage 
-
-    #  - uses: actions-rs/cargo@v1
-    #    with:
-    #     command: test
-    #     #args: --features visualization
-    #    env:
-    #       RUSTFLAGS: '-Zinstrument-coverage'
-    #       LLVM_PROFILE_FILE: '%p-%m.profraw'
-
-    #  - uses: actions-rs/cargo@v1
-    #    with:
-    #     command: test
-    #     args: --features parallel
-    #    env:
-    #       RUSTFLAGS: '-Zinstrument-coverage'
-    #       LLVM_PROFILE_FILE: '%p-%m.profraw'
-     
-    #  - name: Install grcov
-    #    run: |
-    #     cargo install grcov
-    #     rustup component add llvm-tools-preview
+     - uses: Swatinem/rust-cache@v1
+       with:
+        key: coverage 
    
      - name: Setup
        run: |
         rustup update
-        cargo install grcov
         rustup component add llvm-tools-preview
+        cargo install grcov
         
      - name: Run Tests
        run: |
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw"
-        cargo build
-        ls
-        cargo test
-        cargo test --features parallel
+        cargo test --tests
+        cargo test --tests --features parallel
       
      - name: Grcov run
        run: |
