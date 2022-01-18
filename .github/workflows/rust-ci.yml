@@ -103,6 +103,7 @@ jobs:
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         cargo build
+        ls
         cargo test
         cargo test --features parallel
       
@@ -112,8 +113,7 @@ jobs:
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
         ls
-        echo $RUSTFLAGS
-        echo $LLVM_PROFILE_FILE
+
      
      - name: Archive code coverage results
        uses: actions/upload-artifact@v2
