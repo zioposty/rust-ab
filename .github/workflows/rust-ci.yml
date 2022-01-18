@@ -72,21 +72,21 @@ jobs:
     #    with:
     #     key: coverage 
 
-     - uses: actions-rs/cargo@v1
-       with:
-        command: test
-        #args: --features visualization
-       env:
-          RUSTFLAGS: '-Zinstrument-coverage'
-          LLVM_PROFILE_FILE: '%p-%m.profraw'
+    #  - uses: actions-rs/cargo@v1
+    #    with:
+    #     command: test
+    #     #args: --features visualization
+    #    env:
+    #       RUSTFLAGS: '-Zinstrument-coverage'
+    #       LLVM_PROFILE_FILE: '%p-%m.profraw'
 
-     - uses: actions-rs/cargo@v1
-       with:
-        command: test
-        args: --features parallel
-       env:
-          RUSTFLAGS: '-Zinstrument-coverage'
-          LLVM_PROFILE_FILE: '%p-%m.profraw'
+    #  - uses: actions-rs/cargo@v1
+    #    with:
+    #     command: test
+    #     args: --features parallel
+    #    env:
+    #       RUSTFLAGS: '-Zinstrument-coverage'
+    #       LLVM_PROFILE_FILE: '%p-%m.profraw'
      
 
      - name: Install grcov
@@ -94,8 +94,13 @@ jobs:
         ls
         cargo install grcov
         rustup component add llvm-tools-preview
-     - name: Run grcov
+   
+     - name: Setup & Run grcov
        run: |
+        export RUSTFLAGS="-Zinstrument-coverage"
+        export LLVM_PROFILE_FILE="%p-%m.profraw"
+        cargo test
+        cargo test --features parallel
         grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
         ls
 
