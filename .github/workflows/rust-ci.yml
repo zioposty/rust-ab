@@ -93,10 +93,13 @@ jobs:
     #     cargo install grcov
     #     rustup component add llvm-tools-preview
    
-     - name: Setup & Run Test
+     - name: Setup
        run: |
         cargo install grcov
         rustup component add llvm-tools-preview
+        
+     - name: Run Tests
+       run: |
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw
         cargo build
