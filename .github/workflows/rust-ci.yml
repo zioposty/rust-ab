@@ -97,12 +97,13 @@ jobs:
      - name: Run grcov
        run: |
         grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
-     
+        ls
+
      - name: Download a single artifact
        uses: actions/download-artifact@v2
        with:
-        name: lcov.info
-        path: .
+        name: coverage
+        path: lcov.info/index.html
      
      - uses: codecov/codecov-action@v2
        with:
