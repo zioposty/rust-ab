@@ -98,12 +98,15 @@ jobs:
         cargo install grcov
         rustup component add llvm-tools-preview
         export RUSTFLAGS="-Zinstrument-coverage"
-        export LLVM_PROFILE_FILE="%p-%m.profraw"
+        export LLVM_PROFILE_FILE="%p-%m.profraw
+        cargo build
         cargo test
         cargo test --features parallel
       
-     - name: Grov run
+     - name: Grcov run
        run: |
+        export RUSTFLAGS="-Zinstrument-coverage"
+        export LLVM_PROFILE_FILE="%p-%m.profraw"
         grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
         ls
         echo $RUSTFLAGS
