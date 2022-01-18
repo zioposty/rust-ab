@@ -84,7 +84,10 @@ jobs:
        env:
           RUSTFLAGS: '-Zinstrument-coverage'
           LLVM_PROFILE_FILE: '%m.profraw'
-       
+     
+     - name: Test LS
+       run: |
+       ls
      - name: Install grcov
        run: |
         rustup component add llvm-tools-preview
