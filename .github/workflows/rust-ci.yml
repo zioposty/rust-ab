@@ -65,17 +65,20 @@ jobs:
        with:
         toolchain: nightly
         override: true
+     - name: Cargo Clean
+      run: |
+        cargo clean
+    #  - uses: Swatinem/rust-cache@v1
+    #    with:
+    #     key: coverage 
 
-     - uses: Swatinem/rust-cache@v1
-       with:
-        key: coverage 
      - uses: actions-rs/cargo@v1
        with:
         command: test
         #args: --features visualization
        env:
           RUSTFLAGS: '-Zinstrument-coverage'
-          LLVM_PROFILE_FILE: '%m.profraw'
+          LLVM_PROFILE_FILE: '%p-%m.profraw'
 
      - uses: actions-rs/cargo@v1
        with:
@@ -83,19 +86,17 @@ jobs:
         args: --features parallel
        env:
           RUSTFLAGS: '-Zinstrument-coverage'
-          LLVM_PROFILE_FILE: '%m.profraw'
+          LLVM_PROFILE_FILE: 'parallel-%p-%m.profraw'
      
-     - name: Test LS
-       run: |
-        ls
+
      - name: Install grcov
        run: |
         rustup component add llvm-tools-preview
         curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
      - name: Run grcov
        run: |
-        ./grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
+        grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }} 
-        files: ./lcov.info 
+        files: lcov.info 
