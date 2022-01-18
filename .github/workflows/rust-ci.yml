@@ -88,27 +88,28 @@ jobs:
     #       RUSTFLAGS: '-Zinstrument-coverage'
     #       LLVM_PROFILE_FILE: '%p-%m.profraw'
      
-
-     - name: Install grcov
-       run: |
-        ls
-        cargo install grcov
-        rustup component add llvm-tools-preview
+    #  - name: Install grcov
+    #    run: |
+    #     cargo install grcov
+    #     rustup component add llvm-tools-preview
    
      - name: Setup & Run grcov
        run: |
+        cargo install grcov
+        rustup component add llvm-tools-preview
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         cargo test
         cargo test --features parallel
         grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
         ls
+        echo $RUSTFLAGS
 
      - name: Archive code coverage results
        uses: actions/upload-artifact@v2
        with:
         name: coverage
-        path: lcov.info/index.html
+        path: lcov.info
     
      - name: Download all workflow run artifacts
        uses: actions/download-artifact@v2
