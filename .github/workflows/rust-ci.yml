@@ -87,7 +87,7 @@ jobs:
      
      - name: Test LS
        run: |
-       ls
+        ls
      - name: Install grcov
        run: |
         rustup component add llvm-tools-preview
