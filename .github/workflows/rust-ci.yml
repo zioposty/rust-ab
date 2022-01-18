@@ -9,7 +9,6 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -61,22 +60,39 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+     - uses: actions/checkout@v2
+     - uses: actions-rs/toolchain@v1
+       with:
+        profile: minimal
+        toolchain: nightly-2021-03-25
+        override: true
 
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+     - uses: Swatinem/rust-cache@v1
+       with:
+        key: coverage 
+     - uses: actions-rs/cargo@v1
+       with:
+        command: test
+        #args: --features visualization
+       env:
+          RUSTFLAGS: '-Zinstrument-coverage'
+          LLVM_PROFILE_FILE: '%m.profraw'
 
-      - name: Run cargo-tarpaulin
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          version: '0.15.0'
-          args: '-- --test-threads 1'
-
-      - name: Upload to codecov.io
-        uses: codecov/codecov-action@v1.0.2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+     - uses: actions-rs/cargo@v1
+       with:
+        command: test
+        args: --features parallel
+       env:
+          RUSTFLAGS: '-Zinstrument-coverage'
+          LLVM_PROFILE_FILE: '%m.profraw'
+       
+     - name: Install grcov
+       run: |
+        rustup component add llvm-tools-preview
+        curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
+     - name: Run grcov
+       run: |
+        ./grcov . -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
+     - name: Upload to Codecov
+       run: |
+        bash <(curl -s https://codecov.io/bash) -f ./lcov.info
