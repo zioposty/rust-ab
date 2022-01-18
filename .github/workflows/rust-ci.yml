@@ -96,10 +96,13 @@ jobs:
         rustup component add llvm-tools-preview
      - name: Run grcov
        run: |
-        grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
-     - name: Ls
-       run: |
-        ls
+        grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
+     
+     - name: Download a single artifact
+       uses: actions/download-artifact@v2
+       with:
+        name: lcov.info
+     
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }} 
