@@ -101,7 +101,7 @@ jobs:
      - name: Download a single artifact
        uses: actions/download-artifact@v2
        with:
-        name: lcov.info
+        name: ./lcov.info
      
      - uses: codecov/codecov-action@v2
        with:
