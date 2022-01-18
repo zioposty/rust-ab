@@ -91,7 +91,7 @@ jobs:
         curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
      - name: Run grcov
        run: |
-        ./grcov . -s . -t lcov --branch -o lcov.info
+        ./grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }} 
