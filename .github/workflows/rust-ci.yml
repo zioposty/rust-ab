@@ -86,17 +86,17 @@ jobs:
         args: --features parallel
        env:
           RUSTFLAGS: '-Zinstrument-coverage'
-          LLVM_PROFILE_FILE: 'parallel-%p-%m.profraw'
+          LLVM_PROFILE_FILE: '%p-%m.profraw'
      
 
      - name: Install grcov
        run: |
         ls
-        rustup component add llvm-tools-preview
         cargo install grcov
+        rustup component add llvm-tools-preview
      - name: Run grcov
        run: |
-        ./grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
+        grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }} 
