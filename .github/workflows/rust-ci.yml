@@ -91,12 +91,12 @@ jobs:
 
      - name: Install grcov
        run: |
+        ls
         rustup component add llvm-tools-preview
-        curl -L https://github.com/mozilla/grcov/releases/download/v0.6.1/grcov-linux-x86_64.tar.bz2 | tar jxf -
+        cargo install grcov
      - name: Run grcov
        run: |
         ./grcov . --binary-path ./target/debug/ -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }} 
-        files: lcov.info 
