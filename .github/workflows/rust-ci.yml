@@ -65,7 +65,7 @@ jobs:
        with:
         toolchain: nightly
         override: true
-        components: llvm-tools-preview
+        components: llvm-tools
 
      - uses: Swatinem/rust-cache@v1
        with:
@@ -78,14 +78,15 @@ jobs:
      - name: Setup
        run: |
         rustup update
-        rustup component add llvm-tools-preview
         cargo install grcov
         
      - name: Run Tests
        run: |
         export RUSTFLAGS="-Zinstrument-coverage"
+        cargo build
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         cargo test --tests
+        export LLVM_PROFILE_FILE="parallel-%p-%m.profraw" 
         cargo test --tests --features parallel
       
      - name: Grcov run
