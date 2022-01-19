@@ -83,7 +83,7 @@ jobs:
      - name: Run Tests
        run: |
         export RUSTFLAGS="-Zinstrument-coverage"
-        cargo build
+        cargo build --release
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         cargo test --tests
         ls
@@ -94,7 +94,7 @@ jobs:
        run: |
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw"
-        grcov . --binary-path ./target/debug/ -s . -t html --branch -o lcov.info
+        grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
         ls
 
      
@@ -102,7 +102,7 @@ jobs:
        uses: actions/upload-artifact@v2
        with:
         name: coverage
-        path: lcov.info
+        path: target/debug/coverage
     
      - name: Download all workflow run artifacts
        uses: actions/download-artifact@v2
