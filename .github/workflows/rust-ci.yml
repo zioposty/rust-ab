@@ -82,20 +82,18 @@ jobs:
         
      - name: Run Tests
        run: |
-        export RUSTFLAGS="-Zinstrument-coverage"
+        export CARGO_INCREMENTAL=0
+        export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort"
+        export RUSTDOCFLAGS="-Cpanic=abort"
         cargo build --release
-        export LLVM_PROFILE_FILE="%p-%m.profraw"
-        cargo test --tests
-        ls
-        export LLVM_PROFILE_FILE="parallel-%p-%m.profraw" 
-        cargo test --tests --features parallel
-        ls
+        cargo test 
+        cargo test --features parallel
+      
      - name: Grcov run
        run: |
-        grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
+        grcov . -s . -t html --branch --ignore-not-existing -o ./target/debug/coverage/
         ls
-
-     
+        
      - name: Archive code coverage results
        uses: actions/upload-artifact@v2
        with:
