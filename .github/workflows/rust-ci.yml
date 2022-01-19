@@ -91,7 +91,7 @@ jobs:
       
      - name: Grcov run
        run: |
-        grcov . -s . -t lcov --branch --ignore-not-existing --ignore "/*" -o lcov.info
+        grcov . -s . -t lcov --branch --llvm --ignore-not-existing --ignore "/*" -o lcov.info
         
     #  - name: Archive code coverage results
     #    uses: actions/upload-artifact@v2
