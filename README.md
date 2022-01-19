@@ -2,8 +2,7 @@
 **An Agent-Based Simulation engine written in Rust**
  
 ![Rust CI](https://github.com/spagnuolocarmine/rust-ab/workflows/Rust%20CI/badge.svg)
-[![codecov](https://codecov.io/gh/rust-ab/rust-ab/branch/main/graph/badge.svg?token=GWYP2UBPIZ)](https://codecov.io/gh/rust-ab/rust-ab)
-
+[![codecov](https://codecov.io/gh/zioposty/rust-ab/branch/main/graph/badge.svg?token=P1PHWXN7WB)](https://codecov.io/gh/zioposty/rust-ab)
 **Rust-AB** is a discrete events simulation engine for developing ABM simulation that is written in Rust language. 
 
 Rust-AB is designed to be a _ready-to-use_ tool for the ABM community and for this reason the architectural concepts of the well-adopted MASON library were re-engineered to exploit the Rust peculiarities and programming model.
