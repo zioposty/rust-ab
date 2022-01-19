@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ macos-latest ]
+        os: [ ubuntu-latest, macos-latest ]
         rust:
           - stable
           - nightly
@@ -93,7 +93,7 @@ jobs:
        run: |
         grcov . -s . -t html --branch --ignore-not-existing -o ./target/debug/coverage/
         ls
-        
+
      - name: Archive code coverage results
        uses: actions/upload-artifact@v2
        with:
