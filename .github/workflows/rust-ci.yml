@@ -91,18 +91,18 @@ jobs:
       
      - name: Grcov run
        run: |
-        grcov . -s . -t html --branch --ignore-not-existing -o ./target/debug/coverage/
-        ls
-
-     - name: Archive code coverage results
-       uses: actions/upload-artifact@v2
-       with:
-        name: coverage
-        path: target/debug/coverage
+        grcov . -s . -t lcov --branch --ignore-not-existing -o --ignore "/*" -o lcov.info
+        
+    #  - name: Archive code coverage results
+    #    uses: actions/upload-artifact@v2
+    #    with:
+    #     name: coverage
+    #     path: target/debug/coverage
     
-     - name: Download all workflow run artifacts
-       uses: actions/download-artifact@v2
+    #  - name: Download all workflow run artifacts
+    #    uses: actions/download-artifact@v2
      
      - uses: codecov/codecov-action@v2
        with:
-        token: ${{ secrets.CODECOV_TOKEN }} 
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./lcov.info
