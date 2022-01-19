@@ -65,7 +65,7 @@ jobs:
        with:
         toolchain: nightly
         override: true
-        components: llvm-tools
+        components: llvm-tools-preview
 
      - uses: Swatinem/rust-cache@v1
        with:
