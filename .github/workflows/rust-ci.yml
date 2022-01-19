@@ -86,14 +86,15 @@ jobs:
         cargo build
         export LLVM_PROFILE_FILE="%p-%m.profraw"
         cargo test --tests
+        ls
         export LLVM_PROFILE_FILE="parallel-%p-%m.profraw" 
         cargo test --tests --features parallel
-      
+        ls
      - name: Grcov run
        run: |
         export RUSTFLAGS="-Zinstrument-coverage"
         export LLVM_PROFILE_FILE="%p-%m.profraw"
-        grcov . --binary-path ./target/debug/ -s . -t html --branch --ignore-not-existing --ignore "/*" -o lcov.info
+        grcov . --binary-path ./target/debug/ -s . -t html --branch -o lcov.info
         ls
 
      
