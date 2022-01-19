@@ -92,8 +92,6 @@ jobs:
         ls
      - name: Grcov run
        run: |
-        export RUSTFLAGS="-Zinstrument-coverage"
-        export LLVM_PROFILE_FILE="%p-%m.profraw"
         grcov . -s . --binary-path ./target/debug/ -t html --branch --ignore-not-existing -o ./target/debug/coverage/
         ls
 
