@@ -65,14 +65,16 @@ jobs:
        with:
         toolchain: nightly
         override: true
+        components: llvm-tools-preview
+
+     - uses: Swatinem/rust-cache@v1
+       with:
+        key: coverage 
 
      - name: Cargo Clean
        run: |
         cargo clean
-     - uses: Swatinem/rust-cache@v1
-       with:
-        key: coverage 
-   
+
      - name: Setup
        run: |
         rustup update
