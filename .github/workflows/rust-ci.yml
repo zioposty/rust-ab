@@ -82,15 +82,16 @@ jobs:
         
      - name: Run Tests
        run: |
-        cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/*
-        mv lcov.info lcov2.info
+        cargo tarpaulin --implicit-test-threads  --out Xml --exclude-files src/utils/* src/visualization/*
+        mv cobertura.xml cobertura2.xml
      
      - name: Run Tests
        run: |
-        cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/* --features parallel
+        cargo tarpaulin --implicit-test-threads  --out Xml --exclude-files src/utils/* src/visualization/* --features parallel
         
 
      - uses: codecov/codecov-action@v2
        with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./lcov.info, ./locv2.info
+        files: ./cobertura.xml,./cobertura2.xml
+        verbose: true 
