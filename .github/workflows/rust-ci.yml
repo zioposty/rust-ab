@@ -82,12 +82,12 @@ jobs:
         
      - name: Run Tests
        run: |
-       cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/*
-       mv lcov.info lcov2.info
+        cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/*
+        mv lcov.info lcov2.info
      
      - name: Run Tests
        run: |
-       cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/* --features parallel
+        cargo tarpaulin --implicit-test-threads  --out Lcov --exclude-files src/utils/* src/visualization/* --features parallel
         
 
      - uses: codecov/codecov-action@v2
